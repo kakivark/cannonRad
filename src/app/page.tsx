@@ -134,7 +134,7 @@ export default function Home() {
             Trusted to read at scale — around the clock, across the country.
           </h2>
 
-          <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <Stat
               value={
                 <>
@@ -156,6 +156,7 @@ export default function Home() {
               hint="From single-suite imaging centers to nationwide networks."
             />
             <Stat
+              className="sm:col-span-2"
               value={<span className="text-cyan-300">24/7/365</span>}
               label="Always-on coverage"
               hint="Day, night, weekend, and holiday — reads never wait."
@@ -310,14 +311,18 @@ function Stat({
   value,
   label,
   hint,
+  className = "",
 }: {
   value: React.ReactNode;
   label: string;
   hint?: string;
+  className?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-sm">
-      <div className="text-5xl font-semibold tracking-tight text-white md:text-7xl">
+    <div
+      className={`rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-sm ${className}`}
+    >
+      <div className="whitespace-nowrap text-5xl font-semibold tracking-tight tabular-nums text-white md:text-7xl">
         {value}
       </div>
       <div className="mt-3 text-base font-medium text-white/85">{label}</div>
