@@ -36,7 +36,7 @@ export default function HeroVideo() {
           src={`${base}/hero-poster.jpg`}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain object-center sm:object-cover"
         />
       )}
 
@@ -44,7 +44,7 @@ export default function HeroVideo() {
       {!failed && (
         <video
           ref={videoRef}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+          className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-700 sm:object-cover ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
           autoPlay
