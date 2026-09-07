@@ -24,8 +24,22 @@ export const hero = {
   secondaryCta: { label: "How coverage works", href: "#pillars" },
 };
 
-/** Headline metrics. Replace with exact figures when available. */
-export const stats = [
+/**
+ * Headline metrics. Replace with exact figures when available.
+ *
+ * Give `value`/`suffix` to animate a counter, or `display` to render a fixed
+ * string verbatim (for values that would look wrong mid-count).
+ */
+type Stat = {
+  label: string;
+  hint: string;
+  value?: number;
+  decimals?: number;
+  suffix?: string;
+  display?: string;
+};
+
+export const stats: Stat[] = [
   {
     value: 6.8,
     decimals: 1,
@@ -41,9 +55,9 @@ export const stats = [
     hint: "From single-suite imaging centers to nationwide networks.",
   },
   {
-    value: 24,
-    decimals: 0,
-    suffix: "/7/365",
+    // Rendered as-is: counting up to "24/7/365" would animate through
+    // meaningless values like "13/7/365".
+    display: "24/7/365",
     label: "Coverage",
     hint: "Nights, weekends, and holidays are not exceptions — they're the baseline.",
   },

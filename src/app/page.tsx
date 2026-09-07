@@ -56,8 +56,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Headline */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center">
+        {/* Headline. The top padding on this flex container shrinks the region
+            the content centers within, so the eyebrow always clears the login
+            card even on short large-screen viewports. */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center md:pb-16 md:pt-64">
           <div className="mx-auto w-full max-w-6xl px-6 pb-36 md:pb-0">
             <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/5 px-3 py-1 backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]" />
@@ -136,8 +138,14 @@ export default function Home() {
               className="rounded-2xl border border-white/10 bg-white/[0.02] p-7 backdrop-blur-sm"
             >
               <div className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                <CountUp value={s.value} decimals={s.decimals} />
-                <span className="text-cyan-300">{s.suffix}</span>
+                {s.display ? (
+                  <StaticStat text={s.display} />
+                ) : (
+                  <>
+                    <CountUp value={s.value ?? 0} decimals={s.decimals ?? 0} />
+                    <span className="text-cyan-300">{s.suffix}</span>
+                  </>
+                )}
               </div>
               <div className="mt-3 text-sm font-medium text-white/85">
                 {s.label}
@@ -352,6 +360,21 @@ function Section({
       )}
       <div className="relative mx-auto max-w-6xl px-6">{children}</div>
     </section>
+  );
+}
+
+/** Renders a fixed stat string, tinting the separators to match the counters. */
+function StaticStat({ text }: { text: string }) {
+  const [head, ...rest] = text.split("/");
+  return (
+    <>
+      {head}
+      {rest.map((part) => (
+        <span key={part} className="text-cyan-300">
+          /{part}
+        </span>
+      ))}
+    </>
   );
 }
 

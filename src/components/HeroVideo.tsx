@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-/** Give up on the video and show the animated fallback after this long. */
+/** Give up on the video and keep the fallback visible after this long. */
 const LOAD_TIMEOUT_MS = 6000;
 
 export default function HeroVideo() {
@@ -38,10 +38,19 @@ export default function HeroVideo() {
   }, []);
 
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const settled = loaded || failed;
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* The 16:9 hero video. Drop your file at /public/hero.mp4 */}
+    <div className="absolute inset-0 overflow-hidden bg-black">
+      {/* Poster as a layer of its own so there is real imagery on screen
+          immediately, rather than black while the video downloads. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${base}/hero-poster.jpg)` }}
+      />
+
+      {/* The 16:9 hero video. Source file lives at /public/hero.mp4 */}
       <video
         ref={videoRef}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
@@ -57,25 +66,37 @@ export default function HeroVideo() {
         <source src={`${base}/hero.mp4`} type="video/mp4" />
       </video>
 
-      {/* Gradient + vignette overlays for legibility */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_70%,#000_100%)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
-
-      {/* Loader: small "boom", low in the frame so it clears the headline */}
-      {!loaded && !failed && (
-        <div className="absolute inset-x-0 bottom-24 flex justify-center">
-          <span className="boom-pulse font-mono text-xs tracking-[0.2em] text-white/70">
-            boom
-          </span>
-        </div>
-      )}
-
-      {/* Fallback: animated grid if the video is missing or undecodable */}
+      {/* Fallback grid when the video is missing or undecodable */}
       {failed && (
         <div className="absolute inset-0" aria-hidden>
           <div className="tech-grid absolute inset-0" />
         </div>
       )}
+
+      {/* Legibility scrim. The headline is left-aligned, so the heaviest
+          darkening sits on the left where the bright parts of the video would
+          otherwise wash out the type. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"
+      />
+
+      {/* Loading screen: small "boom", centered, covering the first screen
+          until the video is ready. */}
+      <div
+        className={`absolute inset-0 z-30 flex items-center justify-center bg-black transition-opacity duration-700 ${
+          settled ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+        aria-hidden={settled}
+      >
+        <span className="boom-pulse font-mono text-xs tracking-[0.2em] text-white/70">
+          boom
+        </span>
+      </div>
     </div>
   );
 }
