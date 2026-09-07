@@ -12,17 +12,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "Cannonrad — Full radiology coverage, read and delivered.";
+const description =
+  "Cannonrad, LLC provides complete radiology coverage: board-certified radiologists reading around the clock, contracted turnaround times, and reports that reach everyone who needs them. CORE PACS included.";
+
 export const metadata: Metadata = {
-  title: "Cannonrad — Full-service radiology, 24/7/365.",
-  description:
-    "Cannonrad, LLC does everything radiology: 24/7/365 subspecialty reading services, plus CORE PACS, RIS, and IT — one partner for the entire imaging operation.",
+  title,
+  description,
   metadataBase: new URL("https://cannonrad.com"),
-  openGraph: {
-    title: "Cannonrad — Full-service radiology, 24/7/365.",
-    description:
-      "24/7/365 subspecialty reads, plus PACS, RIS, and IT. Cannonrad does everything.",
-    type: "website",
-  },
+  openGraph: { title, description, type: "website" },
 };
 
 export default function RootLayout({

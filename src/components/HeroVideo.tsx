@@ -2,87 +2,99 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/** How long to wait for the video before falling back to the animated grid. */
+const VIDEO_TIMEOUT_MS = 15000;
+
 export default function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const posterUrl = `${base}/hero-poster.jpg`;
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    const onCanPlay = () => setLoaded(true);
-    const onError = () => setFailed(true);
-    v.addEventListener("canplay", onCanPlay);
+
+    const onReady = () => setVideoReady(true);
+    const onError = () => setVideoFailed(true);
+
+    v.addEventListener("canplaythrough", onReady);
+    // Short clips sometimes fire 'loadeddata' but never 'canplaythrough'.
+    v.addEventListener("loadeddata", onReady);
     v.addEventListener("error", onError);
-    // Some browsers fire 'loadeddata' but never 'canplay' for short clips.
-    v.addEventListener("loadeddata", onCanPlay);
-    // If metadata/data is already buffered (e.g. from cache), reveal immediately.
-    if (v.readyState >= 2) setLoaded(true);
+
+    // A browser that cannot decode the file may never fire 'error'.
+    const timeout = window.setTimeout(() => {
+      if (v.readyState >= 2) setVideoReady(true);
+      else setVideoFailed(true);
+    }, VIDEO_TIMEOUT_MS);
+
     return () => {
-      v.removeEventListener("canplay", onCanPlay);
-      v.removeEventListener("loadeddata", onCanPlay);
+      window.clearTimeout(timeout);
+      v.removeEventListener("canplaythrough", onReady);
+      v.removeEventListener("loadeddata", onReady);
       v.removeEventListener("error", onError);
     };
   }, []);
 
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Poster paints instantly for a fast first render. The video fades in on top once ready. */}
-      {!failed && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={`${base}/hero-poster.jpg`}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-contain object-center sm:object-cover"
-        />
-      )}
+    <div className="absolute inset-0 overflow-hidden bg-black">
+      {/* Poster layer, so the hero has imagery before the video arrives.
+          Letterboxed (contain) on phones so a 16:9 frame isn't cropped on the
+          sides; full-bleed (cover) from sm up. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-contain bg-center bg-no-repeat sm:bg-cover"
+        style={{ backgroundImage: `url(${posterUrl})` }}
+      />
 
-      {/* The 16:9 hero video. Sources: WebM (smaller) first, MP4 fallback. */}
-      {!failed && (
-        <video
-          ref={videoRef}
-          className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-700 sm:object-cover ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={`${base}/hero-poster.jpg`}
-        >
-          <source src={`${base}/hero.webm`} type="video/webm" />
-          <source src={`${base}/hero.mp4`} type="video/mp4" />
-        </video>
-      )}
+      {/* The 16:9 hero video. WebM (smaller) first, MP4 fallback. */}
+      <video
+        ref={videoRef}
+        className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-1000 sm:object-cover ${
+          videoReady && !videoFailed ? "opacity-100" : "opacity-0"
+        }`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster={posterUrl}
+      >
+        <source src={`${base}/hero.webm`} type="video/webm" />
+        <source src={`${base}/hero.mp4`} type="video/mp4" />
+      </video>
 
-      {/* Gradient + vignette overlays for legibility */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_70%,#000_100%)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
-
-      {/* Loader: small "boom" over the poster until the video is ready */}
-      {!loaded && !failed && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="boom-pulse text-xs font-mono tracking-[0.2em] text-white/70">
-            boom
-          </span>
-        </div>
-      )}
-
-      {/* Fallback: animated grid if the video can't be loaded */}
-      {failed && (
-        <div className="absolute inset-0">
+      {/* Fallback grid when the video is missing or undecodable */}
+      {videoFailed && (
+        <div className="absolute inset-0" aria-hidden>
           <div className="tech-grid absolute inset-0" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-xs font-mono tracking-[0.2em] text-white/40">
-              hero video pending — drop hero.mp4 in /public
-            </span>
-          </div>
         </div>
       )}
+
+      {/* Legibility scrim. The headline is left-aligned, so the heaviest
+          darkening sits on the left where the bright parts of the video would
+          otherwise wash out the type. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"
+      />
+
+      {/* Loading screen: small "boom", centered on black. Dismisses itself. */}
+      <div
+        aria-hidden
+        className="boom-screen pointer-events-none absolute inset-0 z-40 flex items-center justify-center bg-black"
+      >
+        <span className="boom-pulse font-mono text-xs tracking-[0.2em] text-neutral-300">
+          boom
+        </span>
+      </div>
     </div>
   );
 }

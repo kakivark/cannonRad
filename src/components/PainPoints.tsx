@@ -1,133 +1,113 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-type Pain = {
-  pain: string;
-  solution: string;
-  icon: React.ReactNode;
-};
-
-const items: Pain[] = [
-  {
-    pain: "Coverage gaps at night & on holidays",
-    solution:
-      "Our radiologists read 24/7/365 — nighthawk, weekend, holiday, and overflow. Studies never sit waiting for someone to log on.",
-    icon: <IconMoon />,
-  },
-  {
-    pain: "Backlogs and slow turnaround",
-    solution:
-      "A deep subspecialty bench plus a streaming-first worklist keeps STAT and routine reads moving, so turnaround stays tight even when volume spikes.",
-    icon: <IconBolt />,
-  },
-  {
-    pain: "Juggling multiple vendors",
-    solution:
-      "Reads, PACS, RIS, hosting, and support from one partner. One contract, one number to call — instead of pointing fingers between vendors.",
-    icon: <IconNetwork />,
-  },
-  {
-    pain: "Downtime kills throughput",
-    solution:
-      "CORE PACS and our hosting are engineered for high availability with active-active failover and on-call engineers, so reads keep moving — even when something upstream blinks.",
-    icon: <IconHeartbeat />,
-  },
-  {
-    pain: "Vendor lock-in & opaque pricing",
-    solution:
-      "DICOM-first, standards-based, and transparent. Migrate in, migrate out — your data is always yours.",
-    icon: <IconLock />,
-  },
-  {
-    pain: "Security & compliance overhead",
-    solution:
-      "HIPAA-aligned by default. Audit trails, encryption in transit and at rest, role-based access — no bolt-ons required.",
-    icon: <IconShield />,
-  },
-];
+import { painPoints } from "@/lib/content";
 
 export default function PainPoints() {
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {items.map((it, i) => (
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+      {painPoints.map((it, i) => (
         <motion.div
           key={it.pain}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.6, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, delay: (i % 4) * 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition hover:border-cyan-400/40"
         >
-          <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition group-hover:opacity-100"
-               style={{
-                 background:
-                   "radial-gradient(600px circle at var(--mx,50%) var(--my,0%), rgba(34,211,238,0.10), transparent 40%)",
-               }}
-          />
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/30 bg-cyan-400/10 text-cyan-300">
-            {it.icon}
+            <Icon name={it.icon} />
           </div>
-          <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+          <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
             Pain point
           </div>
-          <h3 className="mb-3 text-lg font-semibold text-white">{it.pain}</h3>
+          <h3 className="mb-4 text-base font-semibold leading-snug text-white">
+            {it.pain}
+          </h3>
           <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300/80">
-            Cannonrad
+            With Cannonrad
           </div>
-          <p className="text-sm leading-relaxed text-white/70">{it.solution}</p>
+          <p className="text-sm leading-relaxed text-neutral-400">{it.solution}</p>
         </motion.div>
       ))}
     </div>
   );
 }
 
-/* ---------- Icons (inline SVG, no deps) ---------- */
+function Icon({ name }: { name: string }) {
+  const common = {
+    width: 20,
+    height: 20,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
 
-function IconHeartbeat() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 12h4l2-5 4 10 2-5h6" />
-    </svg>
-  );
-}
-function IconBolt() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2 4 14h7l-1 8 9-12h-7z" />
-    </svg>
-  );
-}
-function IconNetwork() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="5" cy="6" r="2" />
-      <circle cx="19" cy="6" r="2" />
-      <circle cx="12" cy="18" r="2" />
-      <path d="M7 7l4 9M17 7l-4 9M7 6h10" />
-    </svg>
-  );
-}
-function IconLock() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="11" width="16" height="9" rx="2" />
-      <path d="M8 11V8a4 4 0 1 1 8 0v3" />
-    </svg>
-  );
-}
-function IconShield() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
-function IconMoon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-    </svg>
-  );
+  switch (name) {
+    case "clock":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3.5 2" />
+        </svg>
+      );
+    case "bolt":
+      return (
+        <svg {...common}>
+          <path d="M13 2 4 14h7l-1 8 9-12h-7z" />
+        </svg>
+      );
+    case "inbox":
+      return (
+        <svg {...common}>
+          <path d="M3 12h5l2 3h4l2-3h5" />
+          <path d="M4 5h16l1 7v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z" />
+        </svg>
+      );
+    case "badge":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="9" r="5" />
+          <path d="m8.5 13.5-1 7.5 4.5-2.5 4.5 2.5-1-7.5" />
+        </svg>
+      );
+    case "stack":
+      return (
+        <svg {...common}>
+          <path d="m12 3 9 5-9 5-9-5 9-5z" />
+          <path d="m3 13 9 5 9-5" />
+        </svg>
+      );
+    case "target":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "link":
+      return (
+        <svg {...common}>
+          <path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1" />
+          <path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg {...common}>
+          <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3z" />
+          <path d="M12 8v4M12 15.5v.5" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+        </svg>
+      );
+  }
 }
