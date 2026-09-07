@@ -18,11 +18,13 @@ export default function Home() {
   return (
     <main className="relative">
       {/* ===================== HERO ===================== */}
-      <section className="relative h-[100svh] min-h-[660px] w-full overflow-hidden">
+      <section className="relative flex min-h-[100svh] flex-col overflow-hidden md:block md:h-[100svh] md:min-h-[660px]">
         <HeroVideo />
 
-        {/* Top bar: brand (left) and legacy link (right), with login beneath */}
-        <div className="pointer-events-none absolute left-0 right-0 top-0 z-20 p-5 md:p-8">
+        {/* Top bar: brand (left) and legacy link (right), with login beneath.
+            On mobile this is a normal flow row so the headline below can never
+            slide up underneath it; on md+ it floats as an absolute overlay. */}
+        <div className="pointer-events-none relative z-20 p-5 md:absolute md:left-0 md:right-0 md:top-0 md:p-8">
           <div className="flex items-center justify-between gap-4">
             <div className="pointer-events-auto">
               <Brand />
@@ -56,11 +58,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Headline. The top padding on this flex container shrinks the region
-            the content centers within, so the eyebrow always clears the login
+        {/* Mobile spacer: pushes the headline to the bottom of the flow column
+            so there is always clear space between it and the login card. */}
+        <div className="flex-1 md:hidden" aria-hidden />
+
+        {/* Headline. On mobile it sits in normal flow beneath the login card, so
+            the two can never overlap regardless of the phone's viewport height.
+            On md+ it becomes a centered absolute overlay; the top padding shrinks
+            the region the content centers within so the eyebrow clears the login
             card even on short large-screen viewports. */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center md:pb-16 md:pt-64">
-          <div className="mx-auto w-full max-w-6xl px-6 pb-36 md:pb-0">
+        <div className="pointer-events-none relative z-10 pb-24 md:absolute md:inset-0 md:flex md:items-center md:pb-16 md:pt-64">
+          <div className="mx-auto w-full max-w-6xl px-6">
             <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/5 px-3 py-1 backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]" />
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-200/90">
