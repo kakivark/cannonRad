@@ -268,7 +268,10 @@ export default function Home() {
       </Section>
 
       {/* ===================== TESTIMONIALS ===================== */}
-      <section className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36">
+      <section
+        id="reputation"
+        className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36"
+      >
         <TechBackdrop />
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionLabel>Reputation</SectionLabel>
