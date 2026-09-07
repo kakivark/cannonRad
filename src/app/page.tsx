@@ -2,6 +2,7 @@ import HeroVideo from "@/components/HeroVideo";
 import LoginBox from "@/components/LoginBox";
 import TechBackdrop from "@/components/TechBackdrop";
 import CountUp from "@/components/CountUp";
+import Services from "@/components/Services";
 import PainPoints from "@/components/PainPoints";
 import Testimonials from "@/components/Testimonials";
 
@@ -51,21 +52,25 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center">
           <div className="mx-auto w-full max-w-6xl px-6 pb-32 md:pb-0">
             <h1 className="pointer-events-auto max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              RIS / PACS,{" "}
+              Radiology,{" "}
               <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
-                reimagined.
+                fully handled.
               </span>
             </h1>
             <p className="pointer-events-auto mt-5 max-w-xl text-base text-white/70 md:text-lg">
-              Cannonrad CORE PACS — built for the way modern radiology actually
-              works. Faster reads, fewer headaches, zero compromises.
+              Cannonrad does everything —{" "}
+              <span className="font-medium text-white">
+                24/7/365 subspecialty reads
+              </span>
+              , plus PACS, RIS, and IT, all under one roof. One partner for the
+              entire imaging operation.
             </p>
           </div>
         </div>
 
         {/* Bottom: scroll prompt */}
         <a
-          href="#impact"
+          href="#services"
           aria-label="Scroll down"
           className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 text-center text-white/70 transition hover:text-white"
         >
@@ -92,6 +97,31 @@ export default function Home() {
         <div className="scan-line" aria-hidden />
       </section>
 
+      {/* ===================== SERVICES / FULL SERVICE ===================== */}
+      <section
+        id="services"
+        className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36"
+      >
+        <div className="tech-grid absolute inset-0 opacity-50" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <SectionLabel>What we do</SectionLabel>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+            One partner for the{" "}
+            <span className="bg-gradient-to-r from-cyan-300 to-violet-300 bg-clip-text text-transparent">
+              entire imaging operation.
+            </span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-white/60">
+            Reads are the heart of it — but Cannonrad does everything around
+            them too. Take the whole stack, or just the piece you need.
+          </p>
+
+          <div className="mt-14">
+            <Services />
+          </div>
+        </div>
+      </section>
+
       {/* ===================== IMPACT / STATS ===================== */}
       <section
         id="impact"
@@ -101,10 +131,10 @@ export default function Home() {
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionLabel>By the numbers</SectionLabel>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
-            Trusted at scale by the people who actually read the studies.
+            Trusted to read at scale — around the clock, across the country.
           </h2>
 
-          <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2">
+          <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
             <Stat
               value={
                 <>
@@ -112,7 +142,7 @@ export default function Home() {
                   <span className="text-cyan-300">M+</span>
                 </>
               }
-              label="Studies completed"
+              label="Studies read"
               hint="Across modalities, sites, and timezones."
             />
             <Stat
@@ -125,6 +155,11 @@ export default function Home() {
               label="Active sites"
               hint="From single-suite imaging centers to nationwide networks."
             />
+            <Stat
+              value={<span className="text-cyan-300">24/7/365</span>}
+              label="Always-on coverage"
+              hint="Day, night, weekend, and holiday — reads never wait."
+            />
           </div>
         </div>
       </section>
@@ -133,17 +168,17 @@ export default function Home() {
       <section className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36">
         <div className="tech-grid absolute inset-0 opacity-60" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-6">
-          <SectionLabel>Why CORE PACS</SectionLabel>
+          <SectionLabel>Why Cannonrad</SectionLabel>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
             The problems radiology directors lose sleep over —{" "}
             <span className="bg-gradient-to-r from-cyan-300 to-violet-300 bg-clip-text text-transparent">
-              solved by design.
+              handled end to end.
             </span>
           </h2>
           <p className="mt-4 max-w-2xl text-white/60">
-            We built CORE PACS by listening to the people running imaging
-            operations every day. Every feature is a direct response to a real
-            pain point.
+            We built Cannonrad by listening to the people running imaging
+            operations every day. From the read to the infrastructure behind it,
+            every part of our service answers a real pain point.
           </p>
 
           <div className="mt-14">
@@ -175,24 +210,24 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.08),transparent_60%)]" />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <h3 className="text-2xl font-semibold tracking-tight text-white md:text-4xl">
-            Ready to see CORE PACS in action?
+            Ready to hand off your reads?
           </h3>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            We&rsquo;ll walk you through a live environment with your workflows
-            in mind.
+            Whether you need full-service coverage or just one piece of the
+            stack, we&rsquo;ll map it to your workflows and volume.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
             <a
-              href="mailto:hello@cannonrad.com?subject=CORE%20PACS%20demo%20request"
+              href="mailto:hello@cannonrad.com?subject=Full-service%20radiology%20inquiry"
               className="rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-cyan-300"
             >
-              Request a demo
+              Get coverage
             </a>
             <a
-              href="mailto:hello@cannonrad.com"
+              href="mailto:hello@cannonrad.com?subject=CORE%20PACS%20demo%20request"
               className="rounded-md border border-white/15 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white/40 hover:text-white"
             >
-              Contact us
+              Book a PACS demo
             </a>
           </div>
         </div>
@@ -229,7 +264,7 @@ function Brand() {
           CANNONRAD
         </div>
         <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/50">
-          RIS · PACS · CORE
+          READS · PACS · RIS · IT
         </div>
       </div>
     </div>

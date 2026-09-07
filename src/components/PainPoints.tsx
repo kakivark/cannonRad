@@ -10,22 +10,28 @@ type Pain = {
 
 const items: Pain[] = [
   {
-    pain: "Downtime kills throughput",
+    pain: "Coverage gaps at night & on holidays",
     solution:
-      "CORE PACS is engineered for high availability with active-active failover, so reads keep moving — even when something upstream blinks.",
-    icon: <IconHeartbeat />,
+      "Our radiologists read 24/7/365 — nighthawk, weekend, holiday, and overflow. Studies never sit waiting for someone to log on.",
+    icon: <IconMoon />,
   },
   {
-    pain: "Studies stuck in transit",
+    pain: "Backlogs and slow turnaround",
     solution:
-      "Streaming-first delivery and intelligent prefetch put priors in front of the radiologist before they click.",
+      "A deep subspecialty bench plus a streaming-first worklist keeps STAT and routine reads moving, so turnaround stays tight even when volume spikes.",
     icon: <IconBolt />,
   },
   {
-    pain: "Workflow friction across sites",
+    pain: "Juggling multiple vendors",
     solution:
-      "One worklist, many facilities. Smart routing, per-site SLAs, and rules that bend to your protocols — not the other way around.",
+      "Reads, PACS, RIS, hosting, and support from one partner. One contract, one number to call — instead of pointing fingers between vendors.",
     icon: <IconNetwork />,
+  },
+  {
+    pain: "Downtime kills throughput",
+    solution:
+      "CORE PACS and our hosting are engineered for high availability with active-active failover and on-call engineers, so reads keep moving — even when something upstream blinks.",
+    icon: <IconHeartbeat />,
   },
   {
     pain: "Vendor lock-in & opaque pricing",
@@ -38,12 +44,6 @@ const items: Pain[] = [
     solution:
       "HIPAA-aligned by default. Audit trails, encryption in transit and at rest, role-based access — no bolt-ons required.",
     icon: <IconShield />,
-  },
-  {
-    pain: "AI that lives in a silo",
-    solution:
-      "Open APIs and a model-agnostic inference layer let you bring the AI you trust — results land in the worklist, not in another tab.",
-    icon: <IconCpu />,
   },
 ];
 
@@ -73,7 +73,7 @@ export default function PainPoints() {
           </div>
           <h3 className="mb-3 text-lg font-semibold text-white">{it.pain}</h3>
           <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300/80">
-            CORE PACS
+            Cannonrad
           </div>
           <p className="text-sm leading-relaxed text-white/70">{it.solution}</p>
         </motion.div>
@@ -124,12 +124,10 @@ function IconShield() {
     </svg>
   );
 }
-function IconCpu() {
+function IconMoon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6" y="6" width="12" height="12" rx="2" />
-      <rect x="9" y="9" width="6" height="6" />
-      <path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" />
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
     </svg>
   );
 }

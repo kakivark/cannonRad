@@ -3,33 +3,33 @@
 const testimonials = [
   {
     quote:
-      "Switching to Cannonrad CORE PACS was the cleanest cutover we've ever had. Throughput jumped, complaints dropped.",
-    author: "Imaging Director",
-    org: "Multi-site outpatient network",
-  },
-  {
-    quote:
-      "Studies open instantly. Priors are just there. Our radiologists stopped noticing the PACS — which is the highest praise I can give it.",
-    author: "Lead Radiologist",
+      "Cannonrad reads our overnights and holidays so my team doesn't burn out. STAT turnaround is faster now than when we staffed it ourselves.",
+    author: "Chief of Radiology",
     org: "Regional hospital system",
   },
   {
     quote:
-      "Their team treats uptime like a personal mission. We've never felt this supported by a vendor.",
+      "One partner for the reads, the PACS, and the hosting. One number to call. It ended the vendor finger-pointing overnight.",
     author: "VP, Radiology Operations",
     org: "National teleradiology group",
+  },
+  {
+    quote:
+      "The subspecialty coverage is the real deal — MSK, neuro, body, peds — final reads, not just prelims. Our referrers noticed.",
+    author: "Medical Director",
+    org: "Multi-site outpatient network",
+  },
+  {
+    quote:
+      "Switching to Cannonrad CORE PACS was the cleanest cutover we've ever had. Studies open instantly and priors are just there.",
+    author: "Imaging Director",
+    org: "Regional hospital system",
   },
   {
     quote:
       "Transparent pricing, open standards, real engineers on the phone. That's a rare trifecta in this industry.",
     author: "CIO",
     org: "Independent imaging center",
-  },
-  {
-    quote:
-      "The worklist is fast, intelligent, and finally feels like it was built by people who've actually read studies.",
-    author: "Chief of Radiology",
-    org: "Academic medical center",
   },
 ];
 

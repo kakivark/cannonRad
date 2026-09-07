@@ -13,14 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cannonrad — RIS / PACS, reimagined.",
+  title: "Cannonrad — Full-service radiology, 24/7/365.",
   description:
-    "Cannonrad, LLC delivers next-generation RIS/PACS technology services. CORE PACS — built for the way modern radiology actually works.",
+    "Cannonrad, LLC does everything radiology: 24/7/365 subspecialty reading services, plus CORE PACS, RIS, and IT — one partner for the entire imaging operation.",
   metadataBase: new URL("https://cannonrad.com"),
   openGraph: {
-    title: "Cannonrad — RIS / PACS, reimagined.",
+    title: "Cannonrad — Full-service radiology, 24/7/365.",
     description:
-      "CORE PACS — built for the way modern radiology actually works.",
+      "24/7/365 subspecialty reads, plus PACS, RIS, and IT. Cannonrad does everything.",
     type: "website",
   },
 };
