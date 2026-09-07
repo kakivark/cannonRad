@@ -12,12 +12,14 @@ export default function HeroVideo() {
     if (!v) return;
     const onCanPlay = () => setLoaded(true);
     const onError = () => setFailed(true);
-    v.addEventListener("canplaythrough", onCanPlay);
+    v.addEventListener("canplay", onCanPlay);
     v.addEventListener("error", onError);
-    // Some browsers fire 'loadeddata' but never 'canplaythrough' for short clips.
+    // Some browsers fire 'loadeddata' but never 'canplay' for short clips.
     v.addEventListener("loadeddata", onCanPlay);
+    // If metadata/data is already buffered (e.g. from cache), reveal immediately.
+    if (v.readyState >= 2) setLoaded(true);
     return () => {
-      v.removeEventListener("canplaythrough", onCanPlay);
+      v.removeEventListener("canplay", onCanPlay);
       v.removeEventListener("loadeddata", onCanPlay);
       v.removeEventListener("error", onError);
     };
@@ -27,27 +29,41 @@ export default function HeroVideo() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* The 16:9 hero video. Drop your file at /public/hero.mp4 */}
-      <video
-        ref={videoRef}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-          loaded && !failed ? "opacity-100" : "opacity-0"
-        }`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster={`${base}/hero-poster.jpg`}
-      >
-        <source src={`${base}/hero.mp4`} type="video/mp4" />
-      </video>
+      {/* Poster paints instantly for a fast first render. The video fades in on top once ready. */}
+      {!failed && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={`${base}/hero-poster.jpg`}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+
+      {/* The 16:9 hero video. Sources: WebM (smaller) first, MP4 fallback. */}
+      {!failed && (
+        <video
+          ref={videoRef}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={`${base}/hero-poster.jpg`}
+        >
+          <source src={`${base}/hero.webm`} type="video/webm" />
+          <source src={`${base}/hero.mp4`} type="video/mp4" />
+        </video>
+      )}
 
       {/* Gradient + vignette overlays for legibility */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_70%,#000_100%)]" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
 
-      {/* Loader: small "boom" in the center until the video is ready */}
+      {/* Loader: small "boom" over the poster until the video is ready */}
       {!loaded && !failed && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="boom-pulse text-xs font-mono tracking-[0.2em] text-white/70">
@@ -56,7 +72,7 @@ export default function HeroVideo() {
         </div>
       )}
 
-      {/* Fallback: animated grid if no video is uploaded yet */}
+      {/* Fallback: animated grid if the video can't be loaded */}
       {failed && (
         <div className="absolute inset-0">
           <div className="tech-grid absolute inset-0" />
