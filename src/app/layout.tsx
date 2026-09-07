@@ -32,8 +32,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      // Inline so the page paints black on the very first frame. Waiting for
+      // the stylesheet leaves a white flash on this otherwise all-dark site.
+      style={{ backgroundColor: "#000", colorScheme: "dark" }}
     >
-      <body className="min-h-full bg-black text-white selection:bg-cyan-400/30 selection:text-white">
+      <body
+        className="min-h-full bg-black text-white selection:bg-cyan-400/30 selection:text-white"
+        style={{ backgroundColor: "#000" }}
+      >
         {children}
       </body>
     </html>
