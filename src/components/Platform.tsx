@@ -21,9 +21,9 @@ export default function Platform() {
         >
           <div className="flex items-center gap-2">
             <span className="h-1 w-1 rounded-full bg-cyan-400" />
-            <h3 className="text-sm font-semibold text-white/90">{f.title}</h3>
+            <h3 className="text-sm font-semibold text-neutral-100">{f.title}</h3>
           </div>
-          <p className="mt-2.5 text-sm leading-relaxed text-white/55">{f.body}</p>
+          <p className="mt-2.5 text-sm leading-relaxed text-neutral-400">{f.body}</p>
         </motion.div>
       ))}
     </div>

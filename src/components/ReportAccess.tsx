@@ -96,7 +96,7 @@ function RoleCard({
       className="rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm transition hover:border-cyan-400/40"
     >
       <h3 className="text-sm font-semibold text-white">{role.role}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-white/60">{role.need}</p>
+      <p className="mt-2 text-sm leading-relaxed text-neutral-400">{role.need}</p>
       <div className="mt-4 border-t border-white/10 pt-3 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-cyan-300/70">
         {role.channel}
       </div>

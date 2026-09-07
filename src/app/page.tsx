@@ -32,7 +32,7 @@ export default function Home() {
               href={site.legacySiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="pointer-events-auto group inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-white/55 backdrop-blur transition hover:border-white/30 hover:text-white sm:text-[11px] sm:tracking-[0.2em]"
+              className="pointer-events-auto group inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-neutral-400 backdrop-blur transition hover:border-white/30 hover:text-white sm:text-[11px] sm:tracking-[0.2em]"
             >
               <span>Legacy site</span>
               <svg
@@ -70,12 +70,12 @@ export default function Home() {
 
             <h1 className="pointer-events-auto mt-5 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {hero.headlineLead}{" "}
-              <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-200 via-white to-violet-200 bg-clip-text text-transparent">
                 {hero.headlineAccent}
               </span>
             </h1>
 
-            <p className="pointer-events-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+            <p className="pointer-events-auto mt-6 max-w-2xl text-base leading-relaxed text-neutral-300 md:text-lg">
               {hero.subhead}
             </p>
 
@@ -88,7 +88,7 @@ export default function Home() {
               </a>
               <a
                 href={hero.secondaryCta.href}
-                className="rounded-md border border-white/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-white/85 backdrop-blur transition hover:border-white/50 hover:text-white"
+                className="rounded-md border border-white/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-neutral-200 backdrop-blur transition hover:border-white/50 hover:text-white"
               >
                 {hero.secondaryCta.label}
               </a>
@@ -100,7 +100,7 @@ export default function Home() {
         <a
           href="#impact"
           aria-label="Scroll down"
-          className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 text-center text-white/70 transition hover:text-white"
+          className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 text-center text-neutral-300 transition hover:text-white"
         >
           <div className="font-mono text-[10px] uppercase tracking-[0.3em]">
             Scroll
@@ -147,10 +147,10 @@ export default function Home() {
                   </>
                 )}
               </div>
-              <div className="mt-3 text-sm font-medium text-white/85">
+              <div className="mt-3 text-sm font-medium text-neutral-200">
                 {s.label}
               </div>
-              <div className="mt-1 text-sm text-white/50">{s.hint}</div>
+              <div className="mt-1 text-sm text-neutral-500">{s.hint}</div>
             </div>
           ))}
         </div>
@@ -294,7 +294,7 @@ export default function Home() {
           <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
             {cta.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/60">{cta.body}</p>
+          <p className="mx-auto mt-4 max-w-xl text-neutral-400">{cta.body}</p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
               href={mailto("Radiology coverage inquiry")}
@@ -304,7 +304,7 @@ export default function Home() {
             </a>
             <a
               href={`mailto:${site.contactEmail}`}
-              className="rounded-md border border-white/15 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white/40 hover:text-white"
+              className="rounded-md border border-white/15 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-neutral-200 transition hover:border-white/40 hover:text-white"
             >
               {cta.secondary.label}
             </a>
@@ -313,7 +313,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-white/5 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-xs text-white/40 md:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-xs text-neutral-500 md:flex-row">
           <div className="flex items-center gap-2">
             <BrandMark className="h-4 w-4" />
             <span>
@@ -387,7 +387,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 }
 
 function SectionLede({ children }: { children: React.ReactNode }) {
-  return <p className="mt-4 max-w-2xl text-white/60">{children}</p>;
+  return <p className="mt-4 max-w-2xl text-neutral-400">{children}</p>;
 }
 
 function Accent({ children }: { children: React.ReactNode }) {
@@ -402,7 +402,7 @@ function Callout({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm">
       <h3 className="text-sm font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-white/60">{body}</p>
+      <p className="mt-2 text-sm leading-relaxed text-neutral-400">{body}</p>
     </div>
   );
 }
@@ -415,7 +415,7 @@ function Brand() {
         <div className="text-sm font-semibold tracking-wide text-white">
           {site.brand}
         </div>
-        <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/50 sm:tracking-[0.25em]">
+        <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-neutral-500 sm:tracking-[0.25em]">
           {site.tagline}
         </div>
       </div>

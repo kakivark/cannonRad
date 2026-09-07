@@ -18,7 +18,7 @@ export default function PainPoints() {
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/30 bg-cyan-400/10 text-cyan-300">
             <Icon name={it.icon} />
           </div>
-          <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+          <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500">
             Pain point
           </div>
           <h3 className="mb-4 text-base font-semibold leading-snug text-white">
@@ -27,7 +27,7 @@ export default function PainPoints() {
           <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300/80">
             With Cannonrad
           </div>
-          <p className="text-sm leading-relaxed text-white/65">{it.solution}</p>
+          <p className="text-sm leading-relaxed text-neutral-400">{it.solution}</p>
         </motion.div>
       ))}
     </div>

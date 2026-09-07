@@ -43,7 +43,7 @@ function ScopeCard({
       <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
         {label}
       </div>
-      <p className="mt-3 text-sm text-white/55">{note}</p>
+      <p className="mt-3 text-sm text-neutral-400">{note}</p>
       <div className="mt-6 flex flex-wrap gap-2">
         {items.map((item, i) => (
           <motion.span
@@ -52,7 +52,7 @@ function ScopeCard({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{ duration: 0.35, delay: delay + 0.25 + i * 0.035 }}
-            className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs text-white/80 transition hover:border-cyan-400/40 hover:text-white"
+            className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs text-neutral-200 transition hover:border-cyan-400/40 hover:text-white"
           >
             {item}
           </motion.span>

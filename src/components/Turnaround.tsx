@@ -21,7 +21,7 @@ export default function Turnaround() {
           className="group border-b border-white/[0.07] px-6 py-6 last:border-b-0 md:px-8"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <div className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/55">
+            <div className="font-mono text-[11px] uppercase tracking-[0.24em] text-neutral-400">
               {tier.priority}
             </div>
             <div className="text-2xl font-semibold tracking-tight text-white md:text-3xl">
@@ -44,7 +44,7 @@ export default function Turnaround() {
             />
           </div>
 
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/55">
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-400">
             {tier.description}
           </p>
         </motion.div>

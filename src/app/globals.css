@@ -121,6 +121,34 @@ html {
   }
 }
 
+/* "boom" loading screen.
+   The fade-out is pure CSS and fill-mode: forwards, so it runs as soon as the
+   stylesheet paints and never depends on JS hydration — otherwise a slow
+   connection would sit on a black screen until the bundle arrived. */
+.boom-screen {
+  animation: boom-screen-out 1.7s ease-in-out forwards;
+}
+
+@keyframes boom-screen-out {
+  0%,
+  55% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boom-screen {
+    animation: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 /* "boom" loader pulse */
 @keyframes boom-pulse {
   0%,

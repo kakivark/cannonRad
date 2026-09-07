@@ -28,17 +28,17 @@ export default function Pillars() {
             {icons[p.id]}
           </div>
 
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-neutral-500">
             {p.kicker}
           </div>
           <h3 className="mt-2 text-xl font-semibold leading-snug text-white">
             {p.title}
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-white/65">{p.body}</p>
+          <p className="mt-3 text-sm leading-relaxed text-neutral-400">{p.body}</p>
 
           <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-5">
             {p.points.map((pt) => (
-              <li key={pt} className="flex items-start gap-2.5 text-sm text-white/75">
+              <li key={pt} className="flex items-start gap-2.5 text-sm text-neutral-300">
                 <svg
                   className="mt-[3px] h-3.5 w-3.5 shrink-0 text-cyan-300"
                   viewBox="0 0 24 24"
