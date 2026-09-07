@@ -9,9 +9,23 @@ export default function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoReady, setVideoReady] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
+  // The hero video is intentionally left off small screens — on a phone the
+  // motion reads as busy behind the headline, and skipping it also avoids the
+  // download. It renders from the `sm` breakpoint (640px) up. Starts false so
+  // SSR and first client render match (no hydration mismatch); the effect flips
+  // it on for larger viewports.
+  const [showVideo, setShowVideo] = useState(false);
 
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const posterUrl = `${base}/hero-poster.jpg`;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const update = () => setShowVideo(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -37,41 +51,54 @@ export default function HeroVideo() {
       v.removeEventListener("loadeddata", onReady);
       v.removeEventListener("error", onError);
     };
-  }, []);
+  }, [showVideo]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-black">
-      {/* Poster layer, so the hero has imagery before the video arrives.
-          Letterboxed (contain) on phones so a 16:9 frame isn't cropped on the
-          sides; full-bleed (cover) from sm up. */}
+      {/* Mobile backdrop: a quiet static glow instead of the video, so the
+          headline reads cleanly on small screens. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-contain bg-center bg-no-repeat sm:bg-cover"
-        style={{ backgroundImage: `url(${posterUrl})` }}
+        className="absolute inset-0 sm:hidden"
+        style={{
+          background:
+            "radial-gradient(115% 80% at 50% -10%, rgba(34,211,238,0.12), rgba(167,139,250,0.05) 42%, rgba(0,0,0,0) 72%)",
+        }}
       />
 
-      {/* The 16:9 hero video. WebM (smaller) first, MP4 fallback. */}
-      <video
-        ref={videoRef}
-        className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-1000 sm:object-cover ${
-          videoReady && !videoFailed ? "opacity-100" : "opacity-0"
-        }`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster={posterUrl}
-      >
-        <source src={`${base}/hero.webm`} type="video/webm" />
-        <source src={`${base}/hero.mp4`} type="video/mp4" />
-      </video>
+      {/* Tablet/desktop: poster (instant) then the autoplaying hero video. */}
+      {showVideo && (
+        <>
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${posterUrl})` }}
+          />
 
-      {/* Fallback grid when the video is missing or undecodable */}
-      {videoFailed && (
-        <div className="absolute inset-0" aria-hidden>
-          <div className="tech-grid absolute inset-0" />
-        </div>
+          {/* The 16:9 hero video. WebM (smaller) first, MP4 fallback. */}
+          <video
+            ref={videoRef}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+              videoReady && !videoFailed ? "opacity-100" : "opacity-0"
+            }`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={posterUrl}
+          >
+            <source src={`${base}/hero.webm`} type="video/webm" />
+            <source src={`${base}/hero.mp4`} type="video/mp4" />
+          </video>
+
+          {/* Fallback grid when the video is missing or undecodable */}
+          {videoFailed && (
+            <div className="absolute inset-0" aria-hidden>
+              <div className="tech-grid absolute inset-0" />
+            </div>
+          )}
+        </>
       )}
 
       {/* Legibility scrim. The headline is left-aligned, so the heaviest
