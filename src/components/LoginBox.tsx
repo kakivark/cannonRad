@@ -15,7 +15,7 @@ export default function LoginBox() {
         // TODO: wire to auth endpoint
         setTimeout(() => setSubmitting(false), 800);
       }}
-      className="pointer-events-auto w-[280px] rounded-md border border-white/10 bg-black/55 p-3 backdrop-blur-md glow-cyan"
+      className="pointer-events-auto w-full max-w-[280px] rounded-md border border-white/10 bg-black/55 p-3 backdrop-blur-md glow-cyan"
       aria-label="Client login"
     >
       <div className="mb-2 flex items-center justify-between">

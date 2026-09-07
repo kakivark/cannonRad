@@ -1,41 +1,11 @@
 "use client";
 
-const testimonials = [
-  {
-    quote:
-      "Switching to Cannonrad CORE PACS was the cleanest cutover we've ever had. Throughput jumped, complaints dropped.",
-    author: "Imaging Director",
-    org: "Multi-site outpatient network",
-  },
-  {
-    quote:
-      "Studies open instantly. Priors are just there. Our radiologists stopped noticing the PACS — which is the highest praise I can give it.",
-    author: "Lead Radiologist",
-    org: "Regional hospital system",
-  },
-  {
-    quote:
-      "Their team treats uptime like a personal mission. We've never felt this supported by a vendor.",
-    author: "VP, Radiology Operations",
-    org: "National teleradiology group",
-  },
-  {
-    quote:
-      "Transparent pricing, open standards, real engineers on the phone. That's a rare trifecta in this industry.",
-    author: "CIO",
-    org: "Independent imaging center",
-  },
-  {
-    quote:
-      "The worklist is fast, intelligent, and finally feels like it was built by people who've actually read studies.",
-    author: "Chief of Radiology",
-    org: "Academic medical center",
-  },
-];
+import { testimonials } from "@/lib/content";
 
 export default function Testimonials() {
-  // Duplicate for seamless marquee
+  // Duplicated so the marquee can loop seamlessly at -50%.
   const items = [...testimonials, ...testimonials];
+
   return (
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-black to-transparent" />
@@ -45,7 +15,7 @@ export default function Testimonials() {
         {items.map((t, i) => (
           <figure
             key={i}
-            className="w-[360px] shrink-0 rounded-xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm"
+            className="w-[380px] shrink-0 rounded-xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm"
           >
             <svg
               className="mb-4 h-5 w-5 text-cyan-300/70"
@@ -58,7 +28,7 @@ export default function Testimonials() {
               &ldquo;{t.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-4 text-xs text-white/50">
-              <span className="text-white/80">{t.author}</span> — {t.org}
+              <span className="text-white/80">{t.author}</span> &mdash; {t.org}
             </figcaption>
           </figure>
         ))}

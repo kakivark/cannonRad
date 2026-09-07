@@ -1,19 +1,35 @@
 # Cannonrad, LLC — Marketing Site
 
-Modern, black-themed marketing site for Cannonrad, LLC built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**.
+Black-themed marketing site for **Cannonrad, LLC**, a full-service radiology provider: board-certified reading coverage, contracted turnaround times, and report access for everyone at the client who needs it. CORE PACS is positioned as included infrastructure rather than the headline product.
 
-## What's in the box
+Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**, deployed as a static export to GitHub Pages.
 
-- Full-bleed 16:9 video hero (auto-play, muted, loop, `playsInline`)
-- "boom" loading indicator (small, centered) shown until the hero video is ready
-- Top-left username / password login box (replace the submit handler with your auth)
-- Subtle "Legacy site" link in the top-right
-- Animated scroll prompt at the bottom of the hero
-- Animated mesh-network backdrop (canvas) — a radiology / imaging network nod
-- Count-up stats: **6.8M+ studies completed**, **600+ active sites**
-- "Pain points → CORE PACS solutions" grid (6 cards, easy to extend)
-- Auto-scrolling testimonial marquee
-- Reduced-motion friendly, dark-mode native, no third-party trackers
+**Live:** https://kakivark.github.io/cannonRad/
+
+## Editing content
+
+Almost all copy and numbers live in one file:
+
+```
+src/lib/content.ts
+```
+
+Change the pitch, stats, turnaround targets, subspecialties, pain points, or testimonials there — no component edits needed. Anything marked `PLACEHOLDER` still needs real data before launch.
+
+## Page structure
+
+| Section | Purpose | Component |
+| --- | --- | --- |
+| Hero | Video background, login, legacy link, scroll prompt | `HeroVideo`, `LoginBox` |
+| By the numbers | Animated stat counters | `CountUp` |
+| What we provide | Three pillars: reads, turnaround, access | `Pillars` |
+| Turnaround | Animated TAT tiers by priority | `Turnaround` |
+| Report access | Hub-and-spoke of who needs the report | `ReportAccess` |
+| Scope of coverage | Subspecialties and modalities | `CoverageScope` |
+| Why Cannonrad | Pain point → solution grid | `PainPoints` |
+| CORE PACS | Supporting platform, deliberately demoted | `Platform` |
+| Reputation | Testimonial marquee | `Testimonials` |
+| Contact | CTA | — |
 
 ## Getting started
 
@@ -23,43 +39,36 @@ npm run dev
 # open http://localhost:3000
 ```
 
-## Uploading the hero video
+## The hero video
 
-Drop your **~15 second 16:9 MP4** at:
+The hero reads from `public/hero.mp4`, with `public/hero-poster.jpg` as the poster frame. The current file was transcoded from an uploaded `.mov` to a web-friendly H.264 MP4 (~3.6 MB, `+faststart`).
 
+To replace it, re-encode your source and overwrite both files:
+
+```bash
+ffmpeg -i source.mov -an -c:v libx264 -preset slow -crf 24 \
+  -profile:v high -pix_fmt yuv420p -movflags +faststart public/hero.mp4
+
+ffmpeg -ss 0.5 -i source.mov -frames:v 1 -q:v 4 public/hero-poster.jpg
 ```
-public/hero.mp4
-```
 
-Optional poster image (shown briefly while the video loads):
+If the video is missing or a browser cannot decode it, the hero falls back to the animated tech grid after a short timeout rather than leaving the `boom` loader on screen.
 
-```
-public/hero-poster.jpg
-```
+## Deploying
 
-That's it — the homepage will pick it up automatically. If `hero.mp4` is missing or fails to load, the hero gracefully falls back to the animated tech grid with a "hero video pending" hint.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which runs a static export and publishes to GitHub Pages. Pages must be set to **Source: GitHub Actions** in repository settings (already configured).
 
-### From a phone
-
-You have a few easy options. Pick whichever is simplest for you:
-
-1. **AirDrop / Nearby Share / email-to-self** the MP4 to your computer, then drop it into `public/hero.mp4` and commit.
-2. **Open this repo on github.com on your phone** → navigate to the `public/` folder → "Add file" → "Upload files" → pick the MP4 from your phone → name it `hero.mp4` → commit. You can do this directly from a mobile browser.
-3. **Send me the MP4** and I'll add it to the PR (you can attach it on the PR thread or the chat — whichever your interface allows).
-
-> Tip: if your phone records HEVC, export/share as H.264 MP4 for maximum browser compatibility. Aim for ≤ 5–8 MB by encoding at ~1080p with a moderate bitrate.
-
-## Customizing
-
-- Legacy site URL: top of `src/app/page.tsx` (`OLD_SITE_URL`)
-- Stats: `src/app/page.tsx` → `Stat` blocks
-- Pain points: `src/components/PainPoints.tsx`
-- Testimonials: `src/components/Testimonials.tsx`
-- Login submit handler: `src/components/LoginBox.tsx`
-
-## Build
+Local production preview:
 
 ```bash
 npm run build
-npm start
+npx serve out
 ```
+
+> `next start` does not work with `output: "export"` — serve the `out/` directory instead.
+
+## Notes
+
+- All motion respects `prefers-reduced-motion`; the canvas backdrop pauses when the tab is hidden.
+- The login form is UI-only. Wire the submit handler in `src/components/LoginBox.tsx` to a real auth endpoint.
+- Testimonials are deliberately generic placeholders and must be replaced with approved customer language before launch.

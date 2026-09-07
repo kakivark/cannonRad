@@ -2,32 +2,37 @@ import HeroVideo from "@/components/HeroVideo";
 import LoginBox from "@/components/LoginBox";
 import TechBackdrop from "@/components/TechBackdrop";
 import CountUp from "@/components/CountUp";
+import Pillars from "@/components/Pillars";
+import Turnaround from "@/components/Turnaround";
+import ReportAccess from "@/components/ReportAccess";
+import CoverageScope from "@/components/CoverageScope";
 import PainPoints from "@/components/PainPoints";
+import Platform from "@/components/Platform";
 import Testimonials from "@/components/Testimonials";
+import { cta, hero, platform, site, stats } from "@/lib/content";
 
-const OLD_SITE_URL = "https://old.cannonrad.com"; // TODO: replace with the real legacy URL
+const mailto = (subject: string) =>
+  `mailto:${site.contactEmail}?subject=${encodeURIComponent(subject)}`;
 
 export default function Home() {
   return (
     <main className="relative">
       {/* ===================== HERO ===================== */}
-      <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
+      <section className="relative h-[100svh] min-h-[660px] w-full overflow-hidden">
         <HeroVideo />
 
-        {/* Top-left: brand + login */}
+        {/* Top bar: brand (left) and legacy link (right), with login beneath */}
         <div className="pointer-events-none absolute left-0 right-0 top-0 z-20 p-5 md:p-8">
-          <div className="flex items-start justify-between gap-6">
-            <div className="pointer-events-auto flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="pointer-events-auto">
               <Brand />
-              <LoginBox />
             </div>
 
-            {/* Top-right: subtle link to the old website */}
             <a
-              href={OLD_SITE_URL}
+              href={site.legacySiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="pointer-events-auto group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.2em] text-white/55 backdrop-blur transition hover:border-white/30 hover:text-white"
+              className="pointer-events-auto group inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-white/55 backdrop-blur transition hover:border-white/30 hover:text-white sm:text-[11px] sm:tracking-[0.2em]"
             >
               <span>Legacy site</span>
               <svg
@@ -45,25 +50,51 @@ export default function Home() {
               </svg>
             </a>
           </div>
-        </div>
 
-        {/* Center headline */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center">
-          <div className="mx-auto w-full max-w-6xl px-6 pb-32 md:pb-0">
-            <h1 className="pointer-events-auto max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              RIS / PACS,{" "}
-              <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
-                reimagined.
-              </span>
-            </h1>
-            <p className="pointer-events-auto mt-5 max-w-xl text-base text-white/70 md:text-lg">
-              Cannonrad CORE PACS — built for the way modern radiology actually
-              works. Faster reads, fewer headaches, zero compromises.
-            </p>
+          <div className="pointer-events-auto mt-4">
+            <LoginBox />
           </div>
         </div>
 
-        {/* Bottom: scroll prompt */}
+        {/* Headline */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center">
+          <div className="mx-auto w-full max-w-6xl px-6 pb-36 md:pb-0">
+            <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/5 px-3 py-1 backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-200/90">
+                {hero.eyebrow}
+              </span>
+            </div>
+
+            <h1 className="pointer-events-auto mt-5 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              {hero.headlineLead}{" "}
+              <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
+                {hero.headlineAccent}
+              </span>
+            </h1>
+
+            <p className="pointer-events-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+              {hero.subhead}
+            </p>
+
+            <div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href={mailto("Radiology coverage inquiry")}
+                className="rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-cyan-300"
+              >
+                {hero.primaryCta.label}
+              </a>
+              <a
+                href={hero.secondaryCta.href}
+                className="rounded-md border border-white/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-white/85 backdrop-blur transition hover:border-white/50 hover:text-white"
+              >
+                {hero.secondaryCta.label}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll prompt */}
         <a
           href="#impact"
           aria-label="Scroll down"
@@ -88,81 +119,156 @@ export default function Home() {
           </div>
         </a>
 
-        {/* Subtle radiology "scan line" overlay */}
         <div className="scan-line" aria-hidden />
       </section>
 
-      {/* ===================== IMPACT / STATS ===================== */}
-      <section
-        id="impact"
-        className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36"
-      >
-        <TechBackdrop />
-        <div className="relative mx-auto max-w-6xl px-6">
-          <SectionLabel>By the numbers</SectionLabel>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
-            Trusted at scale by the people who actually read the studies.
-          </h2>
+      {/* ===================== STATS ===================== */}
+      <Section id="impact" backdrop="canvas">
+        <SectionLabel>By the numbers</SectionLabel>
+        <SectionHeading>
+          Coverage at scale, proven by volume.
+        </SectionHeading>
 
-          <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2">
-            <Stat
-              value={
-                <>
-                  <CountUp value={6.8} decimals={1} duration={2.4} />
-                  <span className="text-cyan-300">M+</span>
-                </>
-              }
-              label="Studies completed"
-              hint="Across modalities, sites, and timezones."
+        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div
+              key={s.label}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-7 backdrop-blur-sm"
+            >
+              <div className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+                <CountUp value={s.value} decimals={s.decimals} />
+                <span className="text-cyan-300">{s.suffix}</span>
+              </div>
+              <div className="mt-3 text-sm font-medium text-white/85">
+                {s.label}
+              </div>
+              <div className="mt-1 text-sm text-white/50">{s.hint}</div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ===================== THREE PILLARS ===================== */}
+      <Section id="pillars" backdrop="grid">
+        <SectionLabel>What we provide</SectionLabel>
+        <SectionHeading>
+          Radiology as a complete service —{" "}
+          <Accent>reads, turnaround, and access.</Accent>
+        </SectionHeading>
+        <SectionLede>
+          Most vendors sell you software and leave the hard part to you.
+          Cannonrad delivers the interpretation, the clock, and the last mile to
+          everyone who needs the result.
+        </SectionLede>
+
+        <div className="mt-14">
+          <Pillars />
+        </div>
+      </Section>
+
+      {/* ===================== TURNAROUND ===================== */}
+      <Section id="turnaround" backdrop="canvas">
+        <SectionLabel>Turnaround</SectionLabel>
+        <SectionHeading>
+          Reads come back on a clock you can <Accent>plan around.</Accent>
+        </SectionHeading>
+        <SectionLede>
+          Turnaround targets are contracted per study priority and tracked live.
+          You should never have to ask where a report is.
+        </SectionLede>
+
+        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+          <Turnaround />
+
+          <div className="space-y-4">
+            <Callout
+              title="Escalation is built in, not bolted on"
+              body="Critical findings trigger direct provider contact with a closed-loop acknowledgement record — so a finding is never merely posted and forgotten."
             />
-            <Stat
-              value={
-                <>
-                  <CountUp value={600} duration={2.0} />
-                  <span className="text-cyan-300">+</span>
-                </>
-              }
-              label="Active sites"
-              hint="From single-suite imaging centers to nationwide networks."
+            <Callout
+              title="Surges absorbed, targets held"
+              body="An elastic reader pool means a seasonal spike or a new scanner coming online doesn't quietly push your turnaround out."
+            />
+            <Callout
+              title="You see the same numbers we do"
+              body="Live turnaround dashboards replace month-end reports, which replaces arguing about performance with just looking at it."
             />
           </div>
         </div>
-      </section>
+      </Section>
+
+      {/* ===================== REPORT ACCESS ===================== */}
+      <Section id="access" backdrop="grid">
+        <SectionLabel>Report access</SectionLabel>
+        <SectionHeading>
+          A report nobody can reach <Accent>isn&rsquo;t a result.</Accent>
+        </SectionHeading>
+        <SectionLede>
+          Cannonrad treats delivery as part of the read. Every person at your
+          organization who needs the report has a frictionless path to it — no
+          installs, no phone calls, no support tickets.
+        </SectionLede>
+
+        <div className="mt-16">
+          <ReportAccess />
+        </div>
+      </Section>
+
+      {/* ===================== COVERAGE SCOPE ===================== */}
+      <Section id="scope" backdrop="canvas">
+        <SectionLabel>Scope of coverage</SectionLabel>
+        <SectionHeading>
+          Every modality. Every subspecialty. <Accent>Every hour.</Accent>
+        </SectionHeading>
+        <SectionLede>
+          Board-certified, US-licensed radiologists credentialed in the states
+          you operate in — reading the full breadth of your volume.
+        </SectionLede>
+
+        <div className="mt-14">
+          <CoverageScope />
+        </div>
+      </Section>
 
       {/* ===================== PAIN POINTS ===================== */}
-      <section className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36">
-        <div className="tech-grid absolute inset-0 opacity-60" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-6">
-          <SectionLabel>Why CORE PACS</SectionLabel>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
-            The problems radiology directors lose sleep over —{" "}
-            <span className="bg-gradient-to-r from-cyan-300 to-violet-300 bg-clip-text text-transparent">
-              solved by design.
-            </span>
-          </h2>
-          <p className="mt-4 max-w-2xl text-white/60">
-            We built CORE PACS by listening to the people running imaging
-            operations every day. Every feature is a direct response to a real
-            pain point.
-          </p>
+      <Section id="why" backdrop="grid">
+        <SectionLabel>Why Cannonrad</SectionLabel>
+        <SectionHeading>
+          The problems radiology directors lose sleep over —{" "}
+          <Accent>covered.</Accent>
+        </SectionHeading>
+        <SectionLede>
+          We built our service model by listening to the people running imaging
+          operations every day. Each of these is a direct response to a real
+          complaint.
+        </SectionLede>
 
-          <div className="mt-14">
-            <PainPoints />
-          </div>
+        <div className="mt-14">
+          <PainPoints />
         </div>
-      </section>
+      </Section>
+
+      {/* ===================== PLATFORM (PACS, demoted) ===================== */}
+      <Section id="platform" backdrop="canvas">
+        <SectionLabel>{platform.kicker}</SectionLabel>
+        <SectionHeading>{platform.title}</SectionHeading>
+        <SectionLede>{platform.body}</SectionLede>
+
+        <div className="mt-12">
+          <Platform />
+        </div>
+      </Section>
 
       {/* ===================== TESTIMONIALS ===================== */}
       <section className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36">
         <TechBackdrop />
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionLabel>Reputation</SectionLabel>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
-            What our customers say.
-          </h2>
-          <p className="mt-4 max-w-2xl text-white/60">
-            Reliability isn&rsquo;t a slogan &mdash; it&rsquo;s what gets us invited back.
-          </p>
+          <SectionHeading>What our customers say.</SectionHeading>
+          <SectionLede>
+            Reliability isn&rsquo;t a slogan &mdash; it&rsquo;s what gets us
+            invited back.
+          </SectionLede>
         </div>
 
         <div className="relative mt-14">
@@ -170,29 +276,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===================== CTA / FOOTER ===================== */}
-      <section className="relative isolate overflow-hidden border-t border-white/5 py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.08),transparent_60%)]" />
-        <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h3 className="text-2xl font-semibold tracking-tight text-white md:text-4xl">
-            Ready to see CORE PACS in action?
-          </h3>
-          <p className="mx-auto mt-3 max-w-xl text-white/60">
-            We&rsquo;ll walk you through a live environment with your workflows
-            in mind.
-          </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
+      {/* ===================== CTA ===================== */}
+      <section
+        id="contact"
+        className="relative isolate overflow-hidden border-t border-white/5 py-28"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.09),transparent_60%)]" />
+        <div className="relative mx-auto max-w-3xl px-6 text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            {cta.title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-white/60">{cta.body}</p>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="mailto:hello@cannonrad.com?subject=CORE%20PACS%20demo%20request"
-              className="rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-cyan-300"
+              href={mailto("Radiology coverage inquiry")}
+              className="rounded-md bg-cyan-400 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-cyan-300"
             >
-              Request a demo
+              {cta.primary.label}
             </a>
             <a
-              href="mailto:hello@cannonrad.com"
-              className="rounded-md border border-white/15 px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white/40 hover:text-white"
+              href={`mailto:${site.contactEmail}`}
+              className="rounded-md border border-white/15 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white/40 hover:text-white"
             >
-              Contact us
+              {cta.secondary.label}
             </a>
           </div>
         </div>
@@ -202,14 +308,19 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-xs text-white/40 md:flex-row">
           <div className="flex items-center gap-2">
             <BrandMark className="h-4 w-4" />
-            <span>© {new Date().getFullYear()} Cannonrad, LLC. All rights reserved.</span>
+            <span>
+              © {new Date().getFullYear()} {site.company}. All rights reserved.
+            </span>
           </div>
           <div className="flex items-center gap-5">
-            <a href={OLD_SITE_URL} className="hover:text-white/80">
+            <a href={site.legacySiteUrl} className="hover:text-white/80">
               Legacy site
             </a>
-            <a href="mailto:hello@cannonrad.com" className="hover:text-white/80">
-              hello@cannonrad.com
+            <a
+              href={`mailto:${site.contactEmail}`}
+              className="hover:text-white/80"
+            >
+              {site.contactEmail}
             </a>
           </div>
         </div>
@@ -218,7 +329,60 @@ export default function Home() {
   );
 }
 
-/* ---------- small subcomponents ---------- */
+/* ---------- layout helpers ---------- */
+
+function Section({
+  id,
+  backdrop,
+  children,
+}: {
+  id?: string;
+  backdrop: "canvas" | "grid";
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      className="relative isolate overflow-hidden border-t border-white/5 py-28 md:py-36"
+    >
+      {backdrop === "canvas" ? (
+        <TechBackdrop />
+      ) : (
+        <div className="tech-grid absolute inset-0 opacity-60" aria-hidden />
+      )}
+      <div className="relative mx-auto max-w-6xl px-6">{children}</div>
+    </section>
+  );
+}
+
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+      {children}
+    </h2>
+  );
+}
+
+function SectionLede({ children }: { children: React.ReactNode }) {
+  return <p className="mt-4 max-w-2xl text-white/60">{children}</p>;
+}
+
+function Accent({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="bg-gradient-to-r from-cyan-300 to-violet-300 bg-clip-text text-transparent">
+      {children}
+    </span>
+  );
+}
+
+function Callout({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm">
+      <h3 className="text-sm font-semibold text-white">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-white/60">{body}</p>
+    </div>
+  );
+}
 
 function Brand() {
   return (
@@ -226,10 +390,10 @@ function Brand() {
       <BrandMark className="h-6 w-6" />
       <div className="leading-none">
         <div className="text-sm font-semibold tracking-wide text-white">
-          CANNONRAD
+          {site.brand}
         </div>
-        <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/50">
-          RIS · PACS · CORE
+        <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/50 sm:tracking-[0.25em]">
+          {site.tagline}
         </div>
       </div>
     </div>
@@ -267,26 +431,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-300/80">
         {children}
       </span>
-    </div>
-  );
-}
-
-function Stat({
-  value,
-  label,
-  hint,
-}: {
-  value: React.ReactNode;
-  label: string;
-  hint?: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-sm">
-      <div className="text-5xl font-semibold tracking-tight text-white md:text-7xl">
-        {value}
-      </div>
-      <div className="mt-3 text-base font-medium text-white/85">{label}</div>
-      {hint && <div className="mt-1 text-sm text-white/50">{hint}</div>}
     </div>
   );
 }
